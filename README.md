@@ -2,99 +2,152 @@
   <img src="https://i.imgur.com/pU5A58S.png" alt="Microsoft Active Directory Logo"/>
 </p>
 
-<h1 align="center">On-premises Active Directory Deployed in the Cloud (Azure)</h1>
+<h1 align="center">Active Directory Configuration in Azure</h1>
 
-This tutorial outlines the implementation of on-premises Active Directory within Azure Virtual Machines.<br />
-It simulates an enterprise network by setting up a domain controller (DC) on Windows Server 2022 and connecting a Windows 10 client to the domain.
+This lab demonstrates how to deploy and configure an on-premises-style Active Directory environment using Azure Virtual Machines. You'll set up a Domain Controller and a client machine, create users and OUs, and explore core domain features including remote access and scripting.
 
 ---
 
 <h2>🎥 Video Demonstration</h2>
 
-- ### [YouTube: How to Deploy On-Premises Active Directory within Azure Compute](https://www.youtube.com) *(Replace with your actual link)*
+- ### [YouTube: Active Directory Configuration in Azure (Part 1 & 2)](https://www.youtube.com) *(Coming Soon)*
 
 ---
 
 <h2>🧰 Environments and Technologies Used</h2>
 
-- Microsoft Azure (Virtual Machines/Compute)
+- Microsoft Azure (Virtual Machines, Networking, DNS)
 - Remote Desktop Protocol (RDP)
+- Windows Server 2022
+- Windows 10 Pro
 - Active Directory Domain Services (AD DS)
-- PowerShell
-- DNS Server
+- PowerShell + PowerShell ISE
 
 ---
 
 <h2>🖥️ Operating Systems Used</h2>
 
-- Windows Server 2022 (Domain Controller)
-- Windows 10 Pro (21H2) (Client)
+- **DC-1:** Windows Server 2022 (Domain Controller)  
+- **Client-1:** Windows 10 Pro (Domain-Joined Workstation)
 
 ---
 
-<h2>📋 High-Level Deployment and Configuration Steps</h2>
+<h2>📦 VM Details</h2>
 
-- Create two Virtual Machines in Azure (Server and Client)
-- Promote the Server to a Domain Controller (Install AD DS)
-- Configure a custom domain (e.g., `mydomain.local`)
-- Join the Windows 10 Client VM to the Active Directory domain
-
----
-
-<h2>⚙️ Deployment and Configuration Steps</h2>
-
-<p>
-<img src="https://i.imgur.com/NfLg3l2.png" height="80%" width="80%" alt="Azure VM Creation"/>
-</p>
-<p>
-<strong>Step 1:</strong> Deploy two Azure VMs. One will run Windows Server 2022 and act as the Domain Controller. The other will run Windows 10 and serve as a domain-joined workstation. Make sure both VMs are in the same virtual network.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/xuQxjvi.png" height="80%" width="80%" alt="Promoting Domain Controller"/>
-</p>
-<p>
-<strong>Step 2:</strong> On the Server 2022 VM, install the <code>Active Directory Domain Services</code> role using Server Manager. After installation, promote the server to a domain controller and create a new forest (e.g., `mydomain.local`).
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/4dO7ZkC.png" height="80%" width="80%" alt="DNS Configuration"/>
-</p>
-<p>
-<strong>Step 3:</strong> Update the network settings on the Windows 10 VM so its DNS points to the private IP of the Domain Controller. This is required for domain joining to work correctly.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/6c7RQhI.png" height="80%" width="80%" alt="Join Domain"/>
-</p>
-<p>
-<strong>Step 4:</strong> On the Windows 10 VM, go to <code>System > About > Rename this PC (Advanced)</code> and click "Join a domain". Enter your custom domain (e.g., `mydomain.local`) and provide credentials of a domain user. Restart the VM after successful domain join.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/qcyRHMm.png" height="80%" width="80%" alt="Test Login"/>
-</p>
-<p>
-<strong>Step 5:</strong> Log in to the Windows 10 VM using domain credentials (e.g., `mydomain\Zack.Nelson`). Verify domain policies, access, and trust are functioning correctly.
-</p>
+- **Username:** `labuser`  
+- **Password:** `Cyberlab123!`  
+- **Domain:** `mydomain.com`
 
 ---
 
-<h2>🔧 Optional Configuration</h2>
+<h2>⚙️ Part 1: Set Up Domain Controller & Client VM</h2>
 
-- Create and organize Organizational Units (OUs)
-- Create users, groups, and apply Group Policy Objects (GPOs)
-- Install RSAT tools to manage AD remotely
-- Set up additional DNS zones or replication
+### 🏗️ Azure Infrastructure
+
+1. **Create a Resource Group**
+2. **Create a Virtual Network + Subnet**
+3. **Create a Windows Server 2022 VM**  
+   - **Name:** `DC-1`  
+   - Assign static private IP
+4. **Create a Windows 10 VM**  
+   - **Name:** `Client-1`  
+   - Same region & VNet as `DC-1`
+   - Set DNS to `DC-1`'s private IP
+
+---
+
+### 🛜 Basic Connectivity Checks
+
+5. **Disable Windows Firewall** on DC-1 for testing
+6. On `Client-1`, open PowerShell:
+   - Run `ping <DC-1 private IP>` → Ensure success
+   - Run `ipconfig /all` → DNS should point to `DC-1`
+
+---
+
+### 🧱 Install & Promote Active Directory
+
+7. On `DC-1`:
+   - Install **Active Directory Domain Services**
+   - Promote to Domain Controller → Create new forest: `mydomain.com`
+   - Restart and log back in as: `mydomain.com\labuser`
+
+---
+
+### 👩‍💼 Create Domain Admin User
+
+8. In **ADUC (Active Directory Users and Computers)**:
+   - Create OU: `_EMPLOYEES`
+   - Create OU: `_ADMINS`
+   - Add user:  
+     **Name:** `Jane Doe`  
+     **Username:** `jane_admin`  
+     **Password:** `Cyberlab123!`  
+     - Add to: **Domain Admins** security group
+   - Log in as: `mydomain.com\jane_admin`
+
+---
+
+### 💻 Join Client to the Domain
+
+9. On `Client-1`:
+   - Log in as local `labuser`
+   - Join domain: `mydomain.com`
+   - Restart VM
+10. On `DC-1`, verify `Client-1` appears in ADUC
+    - Create OU: `_CLIENTS`
+    - Move `Client-1` into `_CLIENTS`
+
+---
+
+<h2>🔒 Part 2: Additional AD Configuration</h2>
+
+### 🖥️ Enable Remote Desktop for Domain Users
+
+11. On `Client-1` (logged in as `jane_admin`):
+   - Open **System Properties > Remote Desktop**
+   - Allow access for **Domain Users**
+
+> 💡 You'd normally use Group Policy for this at scale. Future lab idea!
+
+---
+
+### 👥 Bulk User Creation via PowerShell
+
+12. On `DC-1`:
+   - Open **PowerShell ISE as Administrator**
+   - Paste and run the user creation script (creates users in `_EMPLOYEES`)
+   - Here is the script, will make 10,000 users: https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
+   - Open ADUC to confirm users were created successfully
+
+13. Log in to `Client-1` using one of the new domain accounts  
+    *(Refer to the password used in the script)*
+
+---
+
+<h2>✅ Final Notes</h2>
+
+- Do **not delete** the VMs — they’ll be used in future labs
+- To save on Azure billing, **stop** the VMs from the Azure Portal when not in use
+
+---
+
+<h2>📚 Summary</h2>
+
+By completing this lab, you've successfully:
+
+- Built an Active Directory environment in the cloud
+- Promoted a Domain Controller and joined a client to the domain
+- Managed users, OUs, and access rights
+- Configured RDP permissions for domain users
+- Used PowerShell scripting to automate account creation
+
+This setup is foundational for real-world IT roles in systems administration, help desk, and enterprise support.
 
 ---
 
 <h2>📬 Questions or Issues?</h2>
 
-If you have questions, feel free to open an issue in this repo or drop a comment under the YouTube tutorial!
+Open an issue in this repo or drop a comment on the walkthrough video!
 
 ---

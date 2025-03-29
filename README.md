@@ -10,7 +10,7 @@ This lab demonstrates how to deploy and configure an on-premises-style Active Di
 
 <h2>🎥 Video Demonstration</h2>
 
-- ### [YouTube: Active Directory Configuration in Azure (Part 1 & 2)](https://www.youtube.com) *(Coming Soon)*
+- ### [YouTube: Active Directory Configuration in Azure (Part 1 & 2)]([https://www.youtube.com](https://youtu.be/lLiAohhfo5c)) 
 
 ---
 

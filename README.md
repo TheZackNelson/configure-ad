@@ -47,8 +47,15 @@ https://youtu.be/lLiAohhfo5c
 
 1. **Create a Resource Group**
 2. **Create a Virtual Network + Subnet**
-3. **Create a Windows Server 2022 VM**  
+   - Save As Active-Directory-Vnet
+   - make sure it's in the right region
+4.  **Create a Windows Server 2022 VM**  
    - **Name:** `DC-1`  
+   - We can keep everything as default
+   - Username and password we want, notepad is your friend
+   - Click the license agreement
+   - Hit nest to disk and next to networking and make sure it's in the Subnet we created.
+   - Review and create, and then create
    - Assign static private IP
 4. **Create a Windows 10 VM**  
    - **Name:** `Client-1`  
@@ -77,13 +84,13 @@ https://youtu.be/lLiAohhfo5c
 
 ### 👩‍💼 Create Domain Admin User
 
-8. In **ADUC (Active Directory Users and Computers)**:
+8. In **ADUC (Shearch Active Directory Users and Computers)**:
    - Create OU: `_EMPLOYEES`
    - Create OU: `_ADMINS`
    - Add user:  
      **Name:** `Jane Doe`  
      **Username:** `jane_admin`  
-     **Password:** `Cyberlab123!`  
+     **Password:** `Cyberlab123!` or any password you choose, save on a notepad as well 
      - Add to: **Domain Admins** security group
    - Log in as: `mydomain.com\jane_admin`
 
@@ -119,6 +126,7 @@ https://youtu.be/lLiAohhfo5c
    - Open **PowerShell ISE as Administrator**
    - Paste and run the user creation script (creates users in `_EMPLOYEES`)
    - Here is the script, will make 10,000 users: https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
+   - Make sure that Active Directory Users And computers is labeled right with _EMPOYEES
    - Open ADUC to confirm users were created successfully
 
 13. Log in to `Client-1` using one of the new domain accounts  
@@ -128,8 +136,7 @@ https://youtu.be/lLiAohhfo5c
 
 <h2>✅ Final Notes</h2>
 
-- Do **not delete** the VMs — they’ll be used in future labs
-- To save on Azure billing, **stop** the VMs from the Azure Portal when not in use
+- Now that we have finished we can delete the resource group we created and the newtwacherRG as we don't need them anymore.
 
 ---
 

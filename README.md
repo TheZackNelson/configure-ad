@@ -125,7 +125,7 @@ https://youtu.be/lLiAohhfo5c
 12. On `DC-1`:
    - Open **PowerShell ISE as Administrator**
    - Paste and run the user creation script (creates users in `_EMPLOYEES`)
-   - Here is the script, will make 10,000 users with password1: https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
+   - Here is the script, will make 10,000 users with password1: https://github.com/TheZackNelson/configure-ad/blob/main/Script
    - Make sure that Active Directory Users And computers is labeled right with _EMPOYEES
    - Open ADUC to confirm users were created successfully
 

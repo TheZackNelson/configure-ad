@@ -53,13 +53,17 @@ https://youtu.be/lLiAohhfo5c
    - **Name:** `DC-1`  
    - We can keep everything as default
    - Username and password we want, notepad is your friend
+   - For `Size` we can keep it default.
    - Click the license agreement
    - Hit nest to disk and next to networking and make sure it's in the Subnet we created.
    - Review and create, and then create
    - Assign static private IP
 4. **Create a Windows 10 VM**  
-   - **Name:** `Client-1`  
-   - Same region & VNet as `DC-1`
+   - **Name:** `Client-1`
+   - User name and password can be the same as `DC-1`
+   - For `Size` we can keep it default.
+   - Same region
+   - hit next on disk and net to networking make sure VNet is the same as `DC-1`
    - Set DNS to `DC-1`'s private IP
 
 ---
@@ -76,8 +80,8 @@ https://youtu.be/lLiAohhfo5c
 ### 🧱 Install & Promote Active Directory
 
 7. On `DC-1`:
-   - Install **Active Directory Domain Services**
-   - Promote to Domain Controller → Create new forest: `mydomain.com`
+   - Install **Active Directory Domain Services** using server management and add features.
+   - Once installed look for the flag icon in to top right and Promote to Domain Controller → Create new forest: `mydomain.com`
    - Restart and log back in as: `mydomain.com\labuser`
 
 ---
@@ -99,7 +103,7 @@ https://youtu.be/lLiAohhfo5c
 ### 💻 Join Client to the Domain
 
 9. On `Client-1`:
-   - Log in as local `labuser`
+   - Log in as local `labuser` 
    - Join domain: `mydomain.com`
    - Restart VM
 10. On `DC-1`, verify `Client-1` appears in ADUC

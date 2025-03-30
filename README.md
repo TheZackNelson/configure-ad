@@ -82,7 +82,7 @@ https://youtu.be/lLiAohhfo5c
 7. On `DC-1`:
    - Install **Active Directory Domain Services** using server management and add features.
    - Once installed look for the flag icon in to top right and Promote to Domain Controller → Create new forest: `mydomain.com`
-   - Restart and log back in as: `mydomain.com\labuser`
+   - Restart and log back in as: `mydomain.com\labuser` because we poromoted this to a domain controller we have to add the context of `mydomain.com\`.
 
 ---
 
@@ -94,9 +94,9 @@ https://youtu.be/lLiAohhfo5c
    - Add user:  
      **Name:** `Jane Doe`  
      **Username:** `jane_admin`  
-     **Password:** `Cyberlab123!` or any password you choose, save on a notepad as well 
+     **Password:** `Cyberlab123!` or any password you choose, save on a notepad as well.
      - Add to: **Domain Admins** security group
-   - Log in as: `mydomain.com\jane_admin`
+   - Log in as: `mydomain.com\jane_admin` 
 
 ---
 

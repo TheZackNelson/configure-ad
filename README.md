@@ -36,7 +36,7 @@ https://youtu.be/lLiAohhfo5c
 <h2>📦 VM Details</h2>
 
 - **Username:** `labuser`  
-- **Password:** `Cyberlab123!`  
+- **Password:** `Cyberlab123!` or whatever you chooses, just to note it down to not forget.  
 - **Domain:** `mydomain.com`
 
 ---
@@ -125,7 +125,7 @@ https://youtu.be/lLiAohhfo5c
 12. On `DC-1`:
    - Open **PowerShell ISE as Administrator**
    - Paste and run the user creation script (creates users in `_EMPLOYEES`)
-   - Here is the script, will make 10,000 users: https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
+   - Here is the script, will make 10,000 users with password1: https://github.com/joshmadakor1/AD_PS/blob/master/Generate-Names-Create-Users.ps1
    - Make sure that Active Directory Users And computers is labeled right with _EMPOYEES
    - Open ADUC to confirm users were created successfully
 
@@ -136,7 +136,7 @@ https://youtu.be/lLiAohhfo5c
 
 <h2>✅ Final Notes</h2>
 
-- Now that we have finished we can delete the resource group we created and the newtwacherRG as we don't need them anymore.
+- Now that we have finished we can delete the resource group we created and the newtwacherRG, we don't need them anymore.
 
 ---
 
